@@ -47,11 +47,3 @@ Resources:
             Effect: "Allow"
             Resource: !Sub "arn:aws:s3:::${WebsiteS3Bucket}/*"
             Principal: "*"
-
-  Outputs:
-    BucketName:
-      Value: !Ref WebsiteS3Bucket
-      Description: The created bucket name
-    WebsiteURL:
-      Value: !GetAtt WebsiteS3Bucket.WebsiteURL
-      Description: URL for the website hosted on S3
