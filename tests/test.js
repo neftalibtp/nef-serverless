@@ -8,8 +8,8 @@ describe('Tests index', function() {
     index.get({ /* event */ }, { /* context */ }, (err, result) => {
       try {
         test.number(result.statusCode).is(200);
-        // test.string(result.body).contains('Hello World');
-        // test.value(result).hasHeader('content-type', 'text/html');
+        test.string(result.body).contains('Tests index');
+        test.value(result).hasHeader('content-type', 'text/html');
         done();
       } catch(error) {
         done(error);
