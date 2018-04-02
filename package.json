@@ -10,6 +10,7 @@
         "unit.js": "2.0.0"
     },
     "scripts": {
-        "test": "nyc --reporter=html mocha --reporter mocha-simple-html-reporter --reporter-options output=index.html --recursive tests"
+        "test": "mocha --reporter mocha-simple-html-reporter --reporter-options output=index.html --recursive tests",
+        "coverage": "nyc --reporter=html mocha --recursive tests"
     }
 }
