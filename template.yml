@@ -2,6 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform:
 - AWS::Serverless-2016-10-31
 - AWS::CodeStar
+
 # sample trigger
 Parameters:
   ProjectId:
@@ -9,11 +10,17 @@ Parameters:
     Description: AWS CodeStar projectID used to associate new resources to team members
 
 Resources:
-  GetHelloWorld:
+
+  # Builds the AWS Components to serve the Test Logs and Code Coverage Report
+  #
+  # Components include:
+  # - API Gateway
+  # - AWS Lambda
+  S3Website:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.get
-      Runtime: nodejs4.3
+      Runtime: nodejs8.1
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
@@ -23,3 +30,6 @@ Resources:
           Properties:
             Path: /
             Method: get
+
+  # Builds the 
+  G
