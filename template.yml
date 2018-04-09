@@ -1,9 +1,37 @@
 AWSTemplateFormatVersion: 2010-09-09
+
+# Required section in order to include objects defined by AWS SAM within a Cloudformation template;
 Transform:
 - AWS::Serverless-2016-10-31
 - AWS::CodeStar
+  
 
-# sample trigger
+#######################################################################################################
+#                                                                                                     #
+# Serverless Application Model (SAM)                                                                  #
+#                                                                                                     #
+# AWS SAM is a model used to define serverless applications on AWS.                                   #
+#                                                                                                     #
+# Serverless applications are applications composed of functions triggered by events.                 #
+# A typical serverless application consists of one or more AWS Lambda functions                       #
+# triggered by events such as object uploads to Amazon S3, Amazon SNS notifications, and API actions. #
+# Those functions can stand alone or leverage other resources such as Amazon DynamoDB                 #
+# tables or S3 buckets. The most basic serverless application is simply a function.                   #
+#                                                                                                     #
+# AWS SAM is based on AWS CloudFormation. A serverless application is defined in a                    #
+# CloudFormation template and deployed as a CloudFormation stack.                                     #
+# An AWS SAM template is a CloudFormation template.                                                   #
+#                                                                                                     #
+# AWS SAM defines a set of objects which can be included in a CloudFormation template                 #
+# to describe common components of serverless applications easily.                                    #
+#                                                                                                     #
+# src. https://github.com/awslabs/serverless-application-model/blob/develop/versions/2016-10-31.md    #
+#                                                                                                     #
+#######################################################################################################
+
+
+# Parameters are CloudFormation features to pass input
+# to your template when you create a stack
 Parameters:
   ProjectId:
     Type: String
@@ -20,7 +48,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.get
-      Runtime: nodejs8.10
+      Runtime: nodejs8.10 # it's important not to leave 0; Cloudformation will fail if you leave 0 out;
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
@@ -31,4 +59,4 @@ Resources:
             Path: /
             Method: get
 
-  # Builds the 
+  
