@@ -39,7 +39,25 @@ Parameters:
 
 Resources:
 
-
+  # Builds the AWS Components to serve the Test Logs and Code Coverage Report
+  #
+  # Components include:
+  # - API Gateway
+  # - AWS Lambda
+  S3Website:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.get
+      Runtime: nodejs8.10 # it's important not to leave 0; Cloudformation will fail if you leave 0 out;
+      Role:
+        Fn::ImportValue:
+          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
 
   # Builds the Gateway to our Proxy Lambda
   APIGateway:
