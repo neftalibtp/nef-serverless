@@ -3,7 +3,6 @@ AWSTemplateFormatVersion: 2010-09-09
 # Required section in order to include objects defined by AWS SAM within a Cloudformation template;
 Transform:
 - AWS::Serverless-2016-10-31
-- AWS::CodeStar
   
 
 #######################################################################################################
@@ -29,21 +28,33 @@ Transform:
 #                                                                                                     #
 #######################################################################################################
 
-
-# Parameters are CloudFormation features to pass input
-# to your template when you create a stack
-Parameters:
-  ProjectId:
-    Type: String
-    Description: AWS CodeStar projectID used to associate new resources to team members
-
 Resources:
 
-  # Proxy Lambda
+  # Builds the Gateway to our Proxy Lambda
+  APIGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: Webhook
+      StageName: Stage
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          title:
+            Ref: AWS::StackName
+        paths:
+          /post-hook-url:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProxyLambdaFunction.Arn}/invocations
+
+  # Node.js Function for an API with Lambda Proxy Integration
   ProxyLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: ProxyLambdaFunction
+      FunctionName: nef-CodeBuild-ProxyLambdaFunction # This is your Lambda function's name; Make sure this is descriptive enough that we know what it's doing;
       Handler: index.handler
       Runtime: nodejs8.10
       CodeUri: serverless # points to the code/document root
