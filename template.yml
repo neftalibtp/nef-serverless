@@ -78,4 +78,19 @@ Resources:
                 uri:
                   !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NodeJsLambda.Arn}/invocations
 
-  
+  # Proxy Lambda
+  ProxyLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ProxyLambdaFunction
+      Handler: index.handler
+      Runtime: nodejs8.10
+      CodeUri: serverless # points to the code/document root
+      Events:
+        MyEndpoint:
+          Type: Api
+          Properties:
+              Path: /post-hook-url
+              Method: post
+              RestApiId:
+                Ref: APIGateway
