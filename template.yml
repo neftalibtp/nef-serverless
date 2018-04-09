@@ -59,4 +59,23 @@ Resources:
             Path: /
             Method: get
 
+  # Builds the Gateway to our Proxy Lambda
+  APIGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: stage
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          title:
+            Ref: AWS::StackName
+        paths:
+          /post-hook-url:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NodeJsLambda.Arn}/invocations
+
   
