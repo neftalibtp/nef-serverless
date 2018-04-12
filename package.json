@@ -12,5 +12,8 @@
     "scripts": {
         "test": "mocha --reporter mocha-simple-html-reporter --reporter-options output=index.html --recursive tests",
         "coverage": "nyc --reporter=html npm test"
+    },
+    "dependencies": {
+        "box-node-sdk": "^1.16.0"
     }
 }

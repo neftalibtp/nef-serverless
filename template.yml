@@ -74,7 +74,7 @@ Resources:
       FunctionName: nef-CodeBuild-CreateBox-LambdaFunction-Proto2 # This is your Lambda function's name; Make sure this is descriptive enough that we know what it's doing;
       Handler: index.handler
       Runtime: nodejs8.10
-      CodeUri: serverless # points to the code/document root
+      CodeUri: serverless/box # points to the code/document root
 
   # https://docs.aws.amazon.com/step-functions/latest/dg/tutorial-lambda-state-machine-cloudformation.html
   MyStateMachine:
